@@ -1,0 +1,18 @@
+services:
+  api:
+    build:
+      context: ../../src/Frosty.Api
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+
+  fe:
+    build:
+      context: ../../src/clientapp-react
+      dockerfile: Dockerfile
+    depends_on:
+      - api
+    ports:
+      - "5173:80"
+    environment:
+      - VITE_API_URL=http://api:8080
