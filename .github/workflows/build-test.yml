@@ -65,5 +65,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: fe-dist
-          path: frontend/dist
+          path: src/clientapp-react/dist
           if-no-files-found: error
