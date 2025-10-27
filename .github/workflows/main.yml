@@ -1,0 +1,5 @@
+- name: Configure AWS credentials (OIDC)
+  uses: aws-actions/configure-aws-credentials@v4
+  with:
+    role-to-assume: arn:aws:iam::457518023943:role/github-deploy
+    aws-region: eu-central-1
