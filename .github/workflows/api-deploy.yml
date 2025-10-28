@@ -7,7 +7,6 @@ on:
   workflow_dispatch:
 
 env:
-  AWS_REGION: eu-central-1           # change if needed
   CONTAINER_NAME: api
   IMAGE_TAG: ${{ github.sha }}
 
@@ -39,4 +38,6 @@ jobs:
         with:
           context: ./src/Frosty.Api
           push: true
-          tags: ${{ steps.ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+          tags: ${{ steps.ecr.outputs.registry }}/${{ secret.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+
+
