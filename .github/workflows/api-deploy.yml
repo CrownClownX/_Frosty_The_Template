@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  CONTAINER_NAME: api
+  CONTAINER_NAME: frosty-api
   IMAGE_TAG: ${{ github.sha }}
 
 jobs:
