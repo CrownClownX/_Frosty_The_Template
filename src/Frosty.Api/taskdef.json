@@ -1,0 +1,87 @@
+{
+  "compatibilities": [
+      "EC2",
+      "MANAGED_INSTANCES",
+      "FARGATE"
+  ],
+  "containerDefinitions": [
+      {
+          "cpu": 0,
+          "environment": [],
+          "environmentFiles": [],
+          "essential": true,
+          "image": "457518023943.dkr.ecr.eu-north-1.amazonaws.com/sales/frosty:fd53b10a62a58092d4c195f6128aaf47f40ebb8b",
+          "logConfiguration": {
+              "logDriver": "awslogs",
+              "options": {
+                  "awslogs-group": "/ecs/frosty-api-task",
+                  "awslogs-create-group": "true",
+                  "awslogs-region": "eu-north-1",
+                  "awslogs-stream-prefix": "ecs"
+              },
+              "secretOptions": []
+          },
+          "mountPoints": [],
+          "name": "frosty-api",
+          "portMappings": [
+              {
+                  "appProtocol": "http",
+                  "containerPort": 8080,
+                  "hostPort": 8080,
+                  "name": "frosty-api-8080-tcp",
+                  "protocol": "tcp"
+              }
+          ],
+          "systemControls": [],
+          "ulimits": [],
+          "volumesFrom": []
+      }
+  ],
+  "cpu": "256",
+  "enableFaultInjection": false,
+  "executionRoleArn": "arn:aws:iam::457518023943:role/ecsTaskExecutionRole",
+  "family": "frosty-api-task",
+  "memory": "512",
+  "networkMode": "awsvpc",
+  "placementConstraints": [],
+  "registeredAt": "2025-10-29T07:44:42.851Z",
+  "registeredBy": "arn:aws:iam::457518023943:root",
+  "requiresAttributes": [
+      {
+          "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+      },
+      {
+          "name": "ecs.capability.execution-role-awslogs"
+      },
+      {
+          "name": "com.amazonaws.ecs.capability.ecr-auth"
+      },
+      {
+          "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+      },
+      {
+          "name": "ecs.capability.execution-role-ecr-pull"
+      },
+      {
+          "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+      },
+      {
+          "name": "ecs.capability.task-eni"
+      },
+      {
+          "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+      }
+  ],
+  "requiresCompatibilities": [
+      "FARGATE"
+  ],
+  "revision": 1,
+  "runtimePlatform": {
+      "cpuArchitecture": "X86_64",
+      "operatingSystemFamily": "LINUX"
+  },
+  "status": "ACTIVE",
+  "taskDefinitionArn": "arn:aws:ecs:eu-north-1:457518023943:task-definition/frosty-api-task:1",
+  "volumes": [],
+  "tags": []
+}
