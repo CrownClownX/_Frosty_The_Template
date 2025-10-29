@@ -40,6 +40,7 @@ jobs:
           push: true
           platforms: linux/amd64
           provenance: false   
-          tags: ${{ steps.ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
-
+          tags: | 
+            ${{ steps.ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+            ${{ github.ref == 'refs/heads/main' && format('{0}/{1}:latest', steps.ecr.outputs.registry, secrets.ECR_REPOSITORY) || '' }}
 
