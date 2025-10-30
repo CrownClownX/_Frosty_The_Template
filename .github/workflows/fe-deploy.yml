@@ -55,7 +55,7 @@ jobs:
           aws s3 cp "$BUILD_DIR/index.html" "s3://${{ secrets.WEB_S3_BUCKET }}/index.html" \
             --cache-control "no-store" --content-type "text/html; charset=utf-8"
           # optional: other top-level files (icons/manifest)
-          aws s3 sync "$BUILD_DIR" "s3://${{ secrets.WEB_S3_BUCKET }}" \
+          aws s3 cp "$BUILD_DIR" "s3://${{ secrets.WEB_S3_BUCKET }}" \
             --recursive --exclude "assets/*" --exclude "index.html" \
             --cache-control "no-store"
 
