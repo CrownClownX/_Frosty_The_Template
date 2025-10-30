@@ -62,6 +62,14 @@ jobs:
             --cache-control "no-store"
 
       - name: Invalidate CloudFront
-        run: aws cloudfront create-invalidation \
-              --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
-              --paths "/*"
+        if: ${{ always() }}            # still runs, but we guard inside
+        env:
+          DIST_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+        run: |
+          if [ -z "${DIST_ID}" ] || [ "${DIST_ID}" = "null" ]; then
+            echo "::error::CLOUDFRONT_DISTRIBUTION_ID secret is missing/unavailable. ${DIST_ID}"
+            echo "If this is a PR from a fork, secrets are not passed to workflows."
+            exit 1
+          fi
+          echo "Invalidating CloudFront distribution..."
+          aws cloudfront create-invalidation --distribution-id "$DIST_ID" --paths "/*"
