@@ -39,7 +39,7 @@ jobs:
       - name: Configure AWS (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN_FRONTEND }}
+          role-to-assume: arn:aws:iam::457518023943:role/github-deploy
           aws-region: ${{ secrets.AWS_REGION }}
 
       # Upload hashed assets with long cache
