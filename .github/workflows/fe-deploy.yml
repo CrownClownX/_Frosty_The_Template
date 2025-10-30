@@ -46,10 +46,9 @@ jobs:
       - name: Sync assets (immutable)
         run: |
           aws s3 sync "$BUILD_DIR/assets" "s3://${{ secrets.WEB_S3_BUCKET }}/assets" \
+            --recursive \
             --delete \
-            --cache-control "public,max-age=31536000,immutable" \
-            --content-type "application/octet-stream"
-        if: ${{ hashFiles('src/clientapp-react/dist/assets/**') != '' }}
+            --cache-control "public,max-age=31536000,immutable"
 
       # Upload everything else first with no-cache to avoid old HTML referencing old assets
       - name: Sync root files (no-cache)
@@ -58,18 +57,11 @@ jobs:
             --cache-control "no-store" --content-type "text/html; charset=utf-8"
           # optional: other top-level files (icons/manifest)
           aws s3 sync "$BUILD_DIR" "s3://${{ secrets.WEB_S3_BUCKET }}" \
-            --exclude "assets/*" --exclude "index.html" \
+            --recursive --exclude "assets/*" --exclude "index.html" \
             --cache-control "no-store"
 
       - name: Invalidate CloudFront
-        if: ${{ always() }}            # still runs, but we guard inside
         env:
           DIST_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
         run: |
-          if [ -z "${DIST_ID}" ] || [ "${DIST_ID}" = "null" ]; then
-            echo "::error::CLOUDFRONT_DISTRIBUTION_ID secret is missing/unavailable. ${DIST_ID}"
-            echo "If this is a PR from a fork, secrets are not passed to workflows."
-            exit 1
-          fi
-          echo "Invalidating CloudFront distribution..."
           aws cloudfront create-invalidation --distribution-id "$DIST_ID" --paths "/*"
